@@ -1,0 +1,9 @@
+export const API_KEY = process.env.REACT_APP_API_KEY
+export const BASE_URL = 'https://api.themoviedb.org/3/'
+export const DEBOUNCE_DELAY = 3000
+export const GENRE_LANGUAGE = 'ru-RU'
+export const NO_RATED_MOVIES_MESSAGE = 'No rated movies found'
+export const NO_OVERVIEW_MESSAGE = 'Movie overview not specified'
+export const NO_INTERNET_MESSAGE = 'Oops!!! No internet connection'
+export const IMAGE_ERROR_MESSAGE = 'Error loading image'
+export const GENRE_ERROR_MESSAGE = 'No genres'
