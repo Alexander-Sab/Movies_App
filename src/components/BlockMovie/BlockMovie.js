@@ -104,10 +104,7 @@ export class BlockMovie extends Component {
                 {genres.map((genre) => {
                   if (this.props.genreIds.includes(genre.id)) {
                     return (
-                      <span
-                        key={genre.id}
-                        className="description-genre__button"
-                      >
+                      <span key={genre.id} className="description-genre__list">
                         {genre.name}
                       </span>
                     )
@@ -116,7 +113,7 @@ export class BlockMovie extends Component {
                 })}
               </div>
             ) : (
-              <div className="description-genre">
+              <div className="c">
                 <p>{GENRE_ERROR_MESSAGE}</p>
               </div>
             )}

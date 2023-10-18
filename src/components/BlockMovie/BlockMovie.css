@@ -20,7 +20,10 @@
   margin-right: 37px;
   }
 
-  
+.scene-cover {
+  width: 183px;
+  height: 281px;
+}  
 .scene-imageError {
   width: 183px;
   height: 281px;
@@ -38,13 +41,13 @@
 }
 
 .description-title {
-max-width: 170px;
-margin: 0px;
-font-size: 20px;
+  max-width: 170px;
+  margin: 0px;
+  font-size: 20px;
 }
 
 .description-rating-circle {
-  display: flex;
+    display: flex;
     border: 3px solid;
     width: 38px;
     height: 38px;
@@ -79,7 +82,16 @@ font-size: 20px;
 }
 
 .description-genre {
-margin-bottom: 7px;
+  
+  
+  margin-bottom: 7px;
+}
+
+.description-genre__list {
+  border: 1px solid 
+  rgba(217, 217, 217, 1);
+  border-radius: 2px;
+  background-color:rgba(250, 250, 250, 1);
 }
 
 .description-genre__action {

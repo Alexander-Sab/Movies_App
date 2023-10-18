@@ -1,23 +1,30 @@
 import { Input } from 'antd'
 import { debounce } from 'lodash'
-import React, { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { DEBOUNCE_DELAY } from '../../constants/constants'
 import './Header.css'
 
 export const Header = ({ onSearch }) => {
   const [searchValue, setSearchValue] = useState('')
-  const handleSearchChange = debounce((value) => {
-    onSearch(value)
-  }, DEBOUNCE_DELAY)
+
+  const handleSearchChange = useCallback(
+    debounce((value) => {
+      //console.log('Search query:', value) // Выводим запрос в консоль
+      onSearch(value)
+    }, DEBOUNCE_DELAY),
+    [],
+  )
+
   const handleInputChange = (e) => {
     const value = e.target.value
     setSearchValue(value)
-    handleSearchChange.cancel() // Отменяем предыдущий запланированный вызов
+    handleSearchChange.cancel()
     if (value.trim() !== '') {
       handleSearchChange(value)
     }
   }
+
   return (
     <div className="control">
       <Input

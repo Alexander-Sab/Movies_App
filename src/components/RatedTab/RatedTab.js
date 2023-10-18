@@ -3,14 +3,12 @@ import React from 'react'
 import { GenreProvider } from '../GenreContext/GenreContext'
 import BlockMovie from '../BlockMovie'
 import { NO_RATED_MOVIES_MESSAGE } from '../../constants/constants'
-
 import './RatedTab.css'
 
 export const RatedTab = ({ ratedMovies, genres, handleRate }) => {
   if (!ratedMovies || ratedMovies.length === 0) {
     return <p>{NO_RATED_MOVIES_MESSAGE}</p>
   }
-
   return (
     <GenreProvider genres={genres}>
       <ul className="section">
@@ -31,5 +29,3 @@ export const RatedTab = ({ ratedMovies, genres, handleRate }) => {
     </GenreProvider>
   )
 }
-
-export default RatedTab
