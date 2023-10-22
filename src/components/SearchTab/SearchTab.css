@@ -1,5 +1,4 @@
 .section { 
-  
     display: flex;
     flex-wrap: wrap;
     white-space: normal; 
@@ -9,3 +8,10 @@
     margin: 0;
     padding: 0;
     }
+
+    @media (min-width: 1024px) {
+        .section { 
+          max-width: 1024px;
+          margin: 0 auto;
+        }
+      }

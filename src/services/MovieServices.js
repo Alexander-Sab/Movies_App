@@ -23,14 +23,14 @@ export class MovieServices {
       })
       .catch((error) => {
         console.error(error)
-        throw error // Пробросить ошибку дальше для обработки в компоненте App
+        throw error
       })
   }
 
   static getGenres() {
     const url = `${this.baseUrl}genre/movie/list`
     const params = {
-      language: GENRE_LANGUAGE, // Установите язык на 'ru-RU' для получения названий жанров на русском языке
+      language: GENRE_LANGUAGE, // Установите язык
       api_key: this.apiKey,
     }
     return axios
@@ -42,6 +42,7 @@ export class MovieServices {
   static searchMovies(query, page) {
     const url = `${this.baseUrl}search/movie`
     const params = {
+      language: GENRE_LANGUAGE,
       api_key: this.apiKey,
       query: query,
       page: page,

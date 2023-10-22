@@ -22,10 +22,7 @@ export class App extends Component {
   }
 
   async componentDidMount() {
-    const { genres } = this.state
-    if (genres.length === 0) {
-      await this.loadGenres()
-    }
+    await this.loadGenres()
     this.searchMovies()
     this.createGuestSession()
   }
@@ -90,8 +87,6 @@ export class App extends Component {
     }
     const updatedMovies = [...movies]
     updatedMovies[movieIndex].rating = newRating
-    //console.log('newRating:', newRating)
-    //console.log('updatedMovies:', updatedMovies)
     this.setState({ movies: updatedMovies }, () => {
       MovieServices.rateMovie(movieId, newRating, guestSessionId)
         .then(() => {
@@ -106,8 +101,12 @@ export class App extends Component {
     })
   }
 
+  handlePageChange = (newPage) => {
+    this.setState({ page: newPage }, this.searchMovies)
+  }
+
   renderSearchTab = () => {
-    const { movies, page, totalPages, genres, guestSessionId } = this.state
+    const { movies, page, totalPages, genres } = this.state
     return (
       <SearchTab
         movies={movies}
@@ -116,15 +115,14 @@ export class App extends Component {
         genres={genres}
         handleSearch={this.handleSearch}
         handleRate={this.handleRate}
-        guestSessionId={guestSessionId}
+        handlePageChange={this.handlePageChange}
       />
     )
   }
 
   renderRatedTab = () => {
-    const { ratedMovies, genres, ratedMoviesLoading, ratedMoviesError } =
+    const { ratedMovies, ratedMoviesLoading, ratedMoviesError, genres } =
       this.state
-    //console.log('возврат оцененных фильмов', ratedMovies)
     if (ratedMoviesLoading) {
       return <p>Loading...</p>
     }
@@ -134,14 +132,12 @@ export class App extends Component {
     if (!ratedMovies || ratedMovies.length === 0) {
       return <p>{NO_RATED_MOVIES_MESSAGE}</p>
     }
-    ratedMovies.forEach((movie) => {
-      //console.log('фильмы', movie)
-    })
+    const filteredRatedMovies = ratedMovies.filter((movie) => movie.rating)
     return (
       <RatedTab
-        ratedMovies={ratedMovies}
-        genres={genres}
+        ratedMovies={filteredRatedMovies}
         handleRate={this.handleRate}
+        genres={genres}
       />
     )
   }
@@ -154,10 +150,6 @@ export class App extends Component {
       this.loadRatedMovies(this.state.guestSessionId)
     }
     this.setState({ activeTab: tab })
-  }
-
-  handlePageChange = (page) => {
-    this.setState({ page }, this.searchMovies)
   }
 
   render() {

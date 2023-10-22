@@ -72,14 +72,34 @@ export class BlockMovie extends Component {
       console.error('Оценка должна быть в диапазоне от 1 до 10')
       return
     }
-    const { movieId, onRate, guestSessionId } = this.props
+    const { movieId, onRate } = this.props
     onRate(movieId, newRating)
     localStorage.setItem(`movieRating_${movieId}`, newRating.toString())
     this.setState({ rating: newRating })
   }
+  shortenTextWithoutCuttingWords = (text, maxLength) => {
+    if (text.length <= maxLength) {
+      return text
+    }
+
+    const words = text.split(' ')
+    let shortenedText = ''
+    let currentLength = 0
+
+    for (let i = 0; i < words.length; i++) {
+      if (currentLength + words[i].length <= maxLength) {
+        shortenedText += words[i] + ' '
+        currentLength += words[i].length + 1
+      } else {
+        break
+      }
+    }
+
+    return shortenedText.trim() + '...'
+  }
   renderMovieDescription = () => {
     const { original_title, release_date, overview, vote_average } = this.props
-    const shortenedDescription = overview ? shortenText(overview, 310) : ''
+    const shortenedDescription = overview ? shortenText(overview, 210) : ''
     let circleColorClass = 'description-rating-circle__red'
     if (vote_average >= 3 && vote_average < 5) {
       circleColorClass = 'description-rating-circle__orange'
@@ -88,6 +108,14 @@ export class BlockMovie extends Component {
     } else if (vote_average >= 7) {
       circleColorClass = 'description-rating-circle__green'
     }
+    const formattedReleaseDate = new Date(release_date).toLocaleDateString(
+      'ru-RU',
+      {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      },
+    )
     return (
       <GenreContext.Consumer>
         {(genres) => (
@@ -98,10 +126,10 @@ export class BlockMovie extends Component {
                 {vote_average}
               </div>
             </div>
-            <div className="description-production">{release_date}</div>
+            <div className="description-production">{formattedReleaseDate}</div>
             {genres.length > 0 ? (
               <div className="description-genre">
-                {genres.map((genre) => {
+                {genres.slice(4).map((genre) => {
                   if (this.props.genreIds.includes(genre.id)) {
                     return (
                       <span key={genre.id} className="description-genre__list">
@@ -113,7 +141,7 @@ export class BlockMovie extends Component {
                 })}
               </div>
             ) : (
-              <div className="c">
+              <div className="description-genre-no">
                 <p>{GENRE_ERROR_MESSAGE}</p>
               </div>
             )}
@@ -145,7 +173,7 @@ export class BlockMovie extends Component {
         {!loading && !error && (
           <>
             {this.renderMovieScene()}
-            <div className="description">
+            <div className="block-description">
               {this.renderMovieDescription()}
               <div className="rate">
                 <Rate
